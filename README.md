@@ -13,7 +13,7 @@ Smart contract ini dijalankan pada local blockchain Hardhat dan dapat dihubungka
 |---|---|---|
 | Michael Laurence Djie | 5006231001 | Deployment, MetaMask Integration |
 | Muhammad Harisul Haq | 5006231028 | Smart Contract Developer & Testing |
-| Evand Khan | 5006231003 | Documentation |
+| Evand Khan | 5006231003 | Documentation & Coverage Analysis |
 
 ---
 
