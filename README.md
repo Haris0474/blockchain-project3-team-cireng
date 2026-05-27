@@ -291,4 +291,4 @@ Voting-Project2/
 
 # Kesimpulan
 
-Project smart contract voting sederhana ini berhasil diimplementasikan menggunakan Solidity dan Hardhat dengan fitur utama voting satu kali per wallet, deployment local blockchain, unit testing, dan integrasi MetaMask.
+Project smart contract voting sederhana ini berhasil diimplementasikan menggunakan Solidity dan Hardhat dengan fitur utama voting satu kali per wallet, deployment local blockchain, unit testing, dan integrasi MetaMask. Dokumentasi sistem, hasil pengujian, serta analisis coverage turut disusun guna memberikan pemahaman yang lebih jelas terkait alur implementasi dan validasi smart contract yang telah dibuat. 
