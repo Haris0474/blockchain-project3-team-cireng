@@ -104,8 +104,8 @@ Use case dari aplikasi ini adalah untuk simulasi pemilihan ketua organisasi, vot
 ### 1. Clone Repository
 
 ```bash
-git clone [url-repository]
-cd blockchain_final_project_voting_dapp
+git clone [https://github.com/Haris0474/blockchain-project3-team-cireng.git]
+cd blockchain-project3-team-cireng
 ```
 
 ### 2. Install Dependencies
