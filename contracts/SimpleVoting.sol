@@ -7,7 +7,7 @@ contract SimpleVoting {
 
     uint256 public deadline;
 
-    struct Candidate {
+        struct Candidate {
         string name;
         uint256 voteCount;
     }
@@ -46,6 +46,7 @@ contract SimpleVoting {
     function vote(uint256 _candidateIndex)
         public
     {
+        
         require(
             block.timestamp < deadline,
             "Voting ended"
@@ -93,4 +94,6 @@ contract SimpleVoting {
     {
         return candidates.length;
     }
+
+    
 }

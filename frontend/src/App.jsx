@@ -15,7 +15,8 @@ function App() {
   const [candidates, setCandidates] = useState([]);
   const [hasVoted, setHasVoted] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
-
+  const [deadline, setDeadline] = useState(0);
+  const [votingEnded, setVotingEnded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -38,7 +39,17 @@ const connectWallet = async () => {
     }
 
     const provider = new ethers.BrowserProvider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
+
+const network = await provider.getNetwork();
+
+if (Number(network.chainId) !== 31337) {
+  setError(
+    "Network salah. Silakan pindah ke Hardhat Localhost (Chain ID 31337)."
+  );
+  return;
+}
+
+await provider.send("eth_requestAccounts", []);
 
     const signer = await provider.getSigner();
     const userAddress = await signer.getAddress();
@@ -63,6 +74,8 @@ const connectWallet = async () => {
   const loadContractData = async (votingContract, userAddress) => {
     try {
       const count = await votingContract.candidateCount();
+      const contractDeadline = await votingContract.deadline();
+      setDeadline(Number(contractDeadline));
       const totalCandidates = Number(count);
 
       const candidateData = [];
@@ -83,6 +96,9 @@ const connectWallet = async () => {
         setHasVoted(votedStatus);
 
         const ownerAddress = await votingContract.getOwner();
+        console.log("OWNER =", ownerAddress);
+        console.log("USER =", userAddress);
+
         setIsOwner(ownerAddress.toLowerCase() === userAddress.toLowerCase());
       }
     } catch (err) {
@@ -108,7 +124,7 @@ const connectWallet = async () => {
     }
   };
 
-  const voteCandidate = async (candidateIndex) => {
+    const voteCandidate = async (candidateIndex) => {
     try {
       setLoading(true);
       setError("");
@@ -143,28 +159,51 @@ const connectWallet = async () => {
   return (
     <div className="app">
       <header>
-        <h1>Simple Voting dApp</h1>
-        <p>Aplikasi voting sederhana berbasis smart contract dan MetaMask.</p>
+        <h1>Aplikasi Voting dApp</h1>
+        <p>Aplikasi voting sederhana berbasis Blockchain.</p>
+   
+
+        {deadline > 0 && (
+          <p>
+            Voting Deadline:{" "}
+            {new Date(deadline * 1000).toLocaleString()}
+          </p>
+        )}
       </header>
 
-      <main>
-        <ConnectWallet account={account} connectWallet={connectWallet} />
+      <main className="dashboard">
 
-        <AddCandidate
-          addCandidate={addCandidate}
-          isOwner={isOwner}
-          loading={loading}
-        />
+        <div className="main-panel">
+          <CandidateList
+            candidates={candidates}
+            voteCandidate={voteCandidate}
+            account={account}
+            hasVoted={hasVoted}
+            loading={loading}
+            deadline={deadline}
+            votingEnded={votingEnded}
+          />
+        </div>
 
-        <CandidateList
-          candidates={candidates}
-          voteCandidate={voteCandidate}
-          account={account}
-          hasVoted={hasVoted}
-          loading={loading}
-        />
+        <div className="side-panel">
+          <ConnectWallet
+            account={account}
+            connectWallet={connectWallet}
+          />
 
-        <StatusMessage loading={loading} message={message} error={error} />
+          <AddCandidate
+            addCandidate={addCandidate}
+            isOwner={isOwner}
+            loading={loading}
+          />
+          
+          <StatusMessage
+            loading={loading}
+            message={message}
+            error={error}
+          />
+        </div>
+
       </main>
     </div>
   );

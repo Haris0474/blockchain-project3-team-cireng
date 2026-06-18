@@ -17,6 +17,7 @@ async function main() {
     "Contract deployed to:",
     await voting.getAddress()
   );
+  console.log("Deadline =", deadline);
 }
 
 main().catch((error) => {

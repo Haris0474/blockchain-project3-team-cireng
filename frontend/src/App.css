@@ -1,133 +1,200 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #222;
+  background:
+    radial-gradient(circle at top left, #1e3a8a 0%, transparent 30%),
+    radial-gradient(circle at bottom right, #7c3aed 0%, transparent 30%),
+    #0f172a;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  min-height: 100vh;
 }
 
 .app {
-  min-height: 100vh;
-  padding: 32px 16px;
+  max-width: 1400px;
+  margin: auto;
+  padding: 30px;
 }
 
 header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
 header h1 {
-  margin-bottom: 8px;
-  color: #1f2937;
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(
+    90deg,
+    #38bdf8,
+    #8b5cf6
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 header p {
-  color: #6b7280;
+  margin-top: 10px;
+  color: #94a3b8;
 }
 
-main {
-  max-width: 900px;
-  margin: 0 auto;
+.dashboard {
   display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 .card {
-  background: white;
-  padding: 20px;
-  border-radius: 14px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow:
+    0 0 25px rgba(59,130,246,0.12);
 }
 
 .card h2 {
-  margin-top: 0;
-  margin-bottom: 16px;
-  color: #111827;
+  color: #60a5fa;
+  margin-bottom: 20px;
+}
+
+.wallet-address {
+  color: #4ade80;
+  font-weight: bold;
 }
 
 button {
   border: none;
-  background: #2563eb;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+  border-radius: 12px;
+  padding: 12px 20px;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(
+    90deg,
+    #06b6d4,
+    #8b5cf6
+  );
+  transition: all .3s ease;
 }
 
 button:hover {
-  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 20px rgba(139,92,246,.4);
 }
 
 button:disabled {
-  background: #9ca3af;
+  opacity: .5;
   cursor: not-allowed;
 }
 
 input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  background: rgba(255,255,255,.05);
+  color: white;
   margin-bottom: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.wallet-address {
-  background: #eef2ff;
-  color: #3730a3;
-  padding: 10px;
-  border-radius: 8px;
-  word-break: break-all;
 }
 
 .candidate-list {
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .candidate-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
+
+  padding: 20px;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.15),
+      rgba(139,92,246,.15)
+    );
+
+  border: 1px solid rgba(255,255,255,.08);
 }
 
-.candidate-item h3 {
-  margin: 0 0 6px 0;
+.candidate-info h3 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
 }
 
-.candidate-item p {
-  margin: 0;
-  color: #6b7280;
-}
+.vote-badge {
+  display: inline-block;
 
-.info {
-  color: #2563eb;
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  font-size: .9rem;
+
+  font-weight: bold;
+
+  background:
+    linear-gradient(
+      90deg,
+      #06b6d4,
+      #8b5cf6
+    );
 }
 
 .success {
-  color: #16a34a;
+  color: #4ade80;
+  margin-top: 10px;
 }
 
 .error {
-  color: #dc2626;
-  word-break: break-word;
+  color: #ef4444;
+  margin-top: 10px;
 }
 
-@media (max-width: 600px) {
+.info {
+  color: #60a5fa;
+  margin-top: 10px;
+}
+
+.main-panel .card {
+  min-height: 650px;
+}
+
+@media (max-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
   .candidate-item {
     flex-direction: column;
+    gap: 15px;
     align-items: flex-start;
   }
 
-  button {
-    width: 100%;
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .app {
+    padding: 15px;
   }
 }

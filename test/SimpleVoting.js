@@ -11,8 +11,13 @@ describe("SimpleVoting", function () {
     [owner, voter1] =
       await ethers.getSigners();
 
+    const latestBlock =
+      await ethers.provider.getBlock(
+        "latest"
+      );
+
     const deadline =
-      Math.floor(Date.now() / 1000) + 86400;
+      latestBlock.timestamp + 86400;
 
     const Voting =
       await ethers.getContractFactory(
@@ -33,6 +38,14 @@ describe("SimpleVoting", function () {
       ).to.equal(owner.address);
   });
 
+  it("Should start with zero candidates",
+    async function () {
+
+      expect(
+        await voting.candidateCount()
+      ).to.equal(0);
+  });
+
   it("Should add candidate",
     async function () {
 
@@ -42,7 +55,8 @@ describe("SimpleVoting", function () {
         await voting.candidateCount()
       ).to.equal(1);
   });
-    it("Should allow voting",
+
+  it("Should allow voting",
     async function () {
 
       await voting.addCandidate("Alice");
@@ -54,7 +68,9 @@ describe("SimpleVoting", function () {
       const candidate =
         await voting.getCandidate(0);
 
-      expect(candidate[1]).to.equal(1);
+      expect(
+        candidate[1]
+      ).to.equal(1);
   });
 
   it("Should prevent double voting",
@@ -67,7 +83,9 @@ describe("SimpleVoting", function () {
         .vote(0);
 
       await expect(
-        voting.connect(voter1).vote(0)
+        voting
+          .connect(voter1)
+          .vote(0)
       ).to.be.revertedWith(
         "Already voted"
       );
@@ -77,9 +95,23 @@ describe("SimpleVoting", function () {
     async function () {
 
       await expect(
-        voting.connect(voter1).vote(5)
+        voting
+          .connect(voter1)
+          .vote(5)
       ).to.be.revertedWith(
         "Invalid candidate"
+      );
+  });
+
+  it("Should reject non-owner adding candidate",
+    async function () {
+
+      await expect(
+        voting
+          .connect(voter1)
+          .addCandidate("Bob")
+      ).to.be.revertedWith(
+        "Not owner"
       );
   });
 
@@ -100,7 +132,9 @@ describe("SimpleVoting", function () {
       await voting.addCandidate("Alice");
 
       await expect(
-        voting.connect(voter1).vote(0)
+        voting
+          .connect(voter1)
+          .vote(0)
       ).to.emit(
         voting,
         "Voted"
@@ -119,16 +153,65 @@ describe("SimpleVoting", function () {
       ).to.equal(2);
   });
 
-  it("Should reject non-owner adding candidate",
-  async function () {
+  it("Should count votes from multiple voters",
+    async function () {
 
-    await expect(
-      voting
+      const [, voter1, voter2] =
+        await ethers.getSigners();
+
+      await voting.addCandidate("Alice");
+
+      await voting
         .connect(voter1)
-        .addCandidate("Bob")
-    ).to.be.revertedWith(
-      "Not owner"
-    );
+        .vote(0);
+
+      await voting
+        .connect(voter2)
+        .vote(0);
+
+      const candidate =
+        await voting.getCandidate(0);
+
+      expect(
+        candidate[1]
+      ).to.equal(2);
+  });
+
+  it("Should reject voting after deadline",
+    async function () {
+
+      const Voting =
+        await ethers.getContractFactory(
+          "SimpleVoting"
+        );
+
+      const latestBlock =
+        await ethers.provider.getBlock(
+          "latest"
+        );
+
+      const expiredDeadline =
+        latestBlock.timestamp - 10;
+
+      const expiredVoting =
+        await Voting.deploy(
+          expiredDeadline
+        );
+
+      await expiredVoting
+        .waitForDeployment();
+
+      await expiredVoting
+        .addCandidate("Alice");
+
+      await expect(
+        expiredVoting
+          .connect(voter1)
+          .vote(0)
+      ).to.be.revertedWith(
+        "Voting ended"
+      );
   });
 
 });
+
