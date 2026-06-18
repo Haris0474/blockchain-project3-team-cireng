@@ -255,15 +255,13 @@ blockchain_final_project_voting_dapp
 
 ---
 
-## Demo (SS tampilan)
+## Demo (SS Tampilan)
 
 ### 1. Wallet Not Connected
 
 Menampilkan tampilan wallet MetaMask sebelum berhasil terhubung ke aplikasi.
 
-```markdown
 ![Wallet Not Connected](image/image1.png)
-```
 
 ---
 
@@ -271,9 +269,7 @@ Menampilkan tampilan wallet MetaMask sebelum berhasil terhubung ke aplikasi.
 
 Menampilkan wallet MetaMask yang berhasil terhubung ke aplikasi.
 
-```markdown
 ![Wallet Connected](image/image2.png)
-```
 
 ---
 
@@ -281,83 +277,64 @@ Menampilkan wallet MetaMask yang berhasil terhubung ke aplikasi.
 
 Owner berhasil menambahkan kandidat ke dalam sistem voting.
 
-```markdown
 ![Add Candidate](image/image3.png)
-```
 
 ---
 
-### 3. Voting Process
+### 4. Voting Process
 
-Pengguna melakukan voting terhadap salah satu kandidat. Dapat dilihat konfirmasi disertai permintaan transaksi dari metahat beserta biaya transaksi
+Pengguna melakukan voting terhadap salah satu kandidat. Dapat dilihat konfirmasi disertai permintaan transaksi dari MetaMask beserta biaya transaksi.
 
-```markdown
-![Voting Process](screenshots/image/image5.png)
-```
+![Voting Process](image/image5.png)
 
 ---
 
-### 4. Double Vote Prevention
+### 5. Double Vote Prevention
 
-Setelah melakukan voting, wallet tidak dapat melakukan voting kembali. Dapat dilihat dari fitur disable tombol vote sehingga tidak akan terjadi pengulangan voting
+Setelah melakukan voting, wallet tidak dapat melakukan voting kembali. Dapat dilihat dari fitur disable tombol vote sehingga tidak akan terjadi pengulangan voting.
 
-```markdown
 ![Double Vote Prevention](image/image4.png)
-```
 
 ---
 
-### 5. Non-Owner Restriction
+### 6. Non-Owner Restriction
 
-Akun selain owner tidak dapat menambahkan kandidat. terlihat dari bagian tambah kandidat yang tidak tersedia
+Akun selain owner tidak dapat menambahkan kandidat. Terlihat dari bagian tambah kandidat yang tidak tersedia.
 
-```markdown
 ![Non Owner Restriction](image/image11.png)
-```
 
 ---
 
-### 6. Network Detection
+### 7. Network Detection
 
-Aplikasi memberikan peringatan ketika pengguna berada pada network yang salah. Hal ini terjadi saat percobaan perubahaan Network ke Bitcoin Mainnet
+Aplikasi memberikan peringatan ketika pengguna berada pada network yang salah. Hal ini terjadi saat percobaan perubahan network ke Bitcoin Mainnet.
 
-```markdown
 ![Network Detection](image/image6.png)
-```
 
 ---
 
-### 7. Voting Result
+### 8. Voting Result
 
-Menampilkan hasil voting dan jumlah suara setiap kandidat. Bisa dilihat setelah ada 3 suara yang masuk 2 suara pada Alice dan 1 untuk Bob
+Menampilkan hasil voting dan jumlah suara setiap kandidat. Bisa dilihat setelah ada 3 suara yang masuk, yaitu 2 suara untuk Alice dan 1 suara untuk Bob.
 
-```markdown
 ![Voting Result](image/image12.png)
-```
 
 ---
 
-### 8. Smart Contract Testing dan Coverage Test
+### 9. Smart Contract Testing dan Coverage Test
 
 Seluruh test case smart contract berhasil dijalankan.
 
-```markdown
 ![Hardhat Test](image/image8.png)
-```
-Selain itu Coverage test juga telah menunjukkan hasil yang baik dari branch telah mencapai 100%
-```markdown
 
-![Hardhat Test](image/image9.png)
-```
+Selain itu Coverage Test juga telah menunjukkan hasil yang baik dengan branch coverage mencapai 100%.
+
+![Coverage Test](image/image9.png)
+
 ---
 
-### 9. Responsive Design (Bonus)
+### 10. Responsive Design (Bonus)
 
 Tampilan aplikasi pada perangkat mobile.
 
-```markdown
 ![Mobile View](image/image10.png)
-```
-
-
----
