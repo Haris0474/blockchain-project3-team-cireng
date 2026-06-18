@@ -1,270 +1,229 @@
-# Simple Voting Smart Contract (Project 2)
+# Simple Voting dApp 
 
-## Deskripsi Proyek
-Project ini merupakan implementasi smart contract voting sederhana berbasis blockchain Ethereum menggunakan Solidity dan Hardhat. Sistem voting ini memungkinkan owner untuk menambahkan kandidat dan pengguna dapat memberikan suara satu kali menggunakan wallet mereka.
+## Deskripsi
 
-Smart contract ini dijalankan pada local blockchain Hardhat dan dapat dihubungkan dengan MetaMask untuk simulasi transaksi blockchain secara langsung.
+Simple Voting dApp adalah aplikasi voting berbasis blockchain yang memungkinkan pengguna melakukan pemungutan suara secara transparan dan terdesentralisasi menggunakan smart contract Ethereum. Aplikasi ini menggunakan MetaMask sebagai wallet untuk autentikasi pengguna dan memastikan setiap wallet hanya dapat melakukan satu kali voting.
 
----
-
-
-
-| Nama | NRP | Job Desc |
-|---|---|---|
-| Michael Laurence Djie | 5006231001 | Deployment, MetaMask Integration |
-| Muhammad Harisul Haq | 5006231028 | Smart Contract Developer & Testing |
-| Evand Khan | 5006231003 | Documentation & Coverage Analysis |
+Use case dari aplikasi ini adalah untuk simulasi pemilihan ketua organisasi, voting komunitas, atau pengambilan keputusan secara transparan menggunakan teknologi blockchain.
 
 ---
 
-## Fitur Smart Contract
+## Anggota Kelompok
 
-### Fitur Utama
-- Owner dapat menambahkan kandidat voting
-- User hanya dapat vote satu kali
-- Menampilkan jumlah kandidat
-- Menampilkan hasil voting kandidat
-- Event logging untuk tracking transaksi voting
-- Validasi kandidat voting
-- Voting deadline menggunakan block.timestamp
-
-### Fitur Bonus
-- Voting deadline otomatis
-- Owner dibuat private
-- Event tracking blockchain
-- Integrasi MetaMask
+| Nama             | NRP   | Kontribusi                 |
+| ---------------- | ----- | -------------------------- |
+| Michael Laurence Djie | 5006231001 | Smart Contract Development |
+| Muhammad Harisul Haq | 5006231028 |  Web3 Integration & Testing  |
+| Evand Khan | 5006231003 | Frontend UI/UX Development |
 
 ---
 
-## Spesifikasi Smart Contract
+## Tech Stack
 
-| Komponen | Implementasi |
-|---|---|
-| State Variables | owner, deadline, candidates |
-| Mapping | hasVoted |
-| Modifier | onlyOwner |
-| Events | CandidateAdded, Voted |
-| Functions | addCandidate, vote, getCandidate, candidateCount, getOwner |
+* Frontend: React + Vite
+* Smart Contract: Solidity + Hardhat
+* Web3 Library: ethers.js
+* Wallet: MetaMask
+* Testing: Mocha + Chai
 
 ---
 
-# Cara Menjalankan Project
+## Fitur
 
-## 1. Install Dependencies
+### Wallet Features
+
+* Connect MetaMask Wallet
+* Display Connected Account
+* Network Detection (Hardhat Localhost)
+
+### Read Operations
+
+* Menampilkan daftar kandidat
+* Menampilkan jumlah vote setiap kandidat
+
+### Write Operations
+
+* Menambahkan kandidat (Owner Only)
+* Melakukan voting kandidat
+
+### Security Features
+
+* Hanya owner yang dapat menambah kandidat
+* Setiap wallet hanya dapat melakukan satu kali voting
+* Validasi kandidat yang dipilih
+* Validasi deadline voting
+
+### User Experience
+
+* Loading state saat transaksi diproses
+* Error handling untuk transaksi gagal
+* Responsive design untuk desktop dan mobile
+
+---
+
+## Smart Contract Features
+
+### State Variables
+
+* owner
+* deadline
+* candidates
+* hasVoted
+
+### Functions
+
+* getOwner()
+* addCandidate()
+* vote()
+* getCandidate()
+* candidateCount()
+
+### Modifier
+
+* onlyOwner
+
+### Events
+
+* CandidateAdded
+* Voted
+
+### Mapping
+
+* hasVoted
+
+---
+
+## Cara Menjalankan
+
+### Prerequisites
+
+* Node.js v18+
+* MetaMask Browser Extension
+* Git
+
+### 1. Clone Repository
+
+```bash
+git clone [url-repository]
+cd blockchain_final_project_voting_dapp
+```
+
+### 2. Install Dependencies
+
+Root project:
 
 ```bash
 npm install
 ```
 
----
-
-## 2. Compile Smart Contract
+Frontend:
 
 ```bash
-npx hardhat compile
+cd frontend
+npm install
 ```
 
----
-
-## 3. Menjalankan Unit Test
-
-```bash
-npx hardhat test
-```
-
----
-
-## 4. Menjalankan Local Blockchain
+### 3. Jalankan Local Blockchain
 
 ```bash
 npx hardhat node
 ```
 
----
+### 4. Deploy Smart Contract
 
-## 5. Deploy Smart Contract
+Buka terminal baru:
 
 ```bash
 npx hardhat run scripts/deploy.js --network localhost
 ```
 
+Salin contract address yang muncul.
+
+### 5. Update Contract Address
+
+Buka file:
+
+```text
+frontend/src/utils/contract.js
+```
+
+Ganti:
+
+```javascript
+export const CONTRACT_ADDRESS = "YOUR_CONTRACT_ADDRESS";
+```
+
+dengan contract address hasil deploy.
+
+### 6. Import Account ke MetaMask
+
+1. Copy private key dari Hardhat Node
+2. Import account ke MetaMask
+3. Tambahkan network Localhost 8545
+4. Hubungkan MetaMask ke network tersebut
+
+### 7. Jalankan Frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+### 8. Buka Browser
+
+```text
+http://localhost:5173
+```
+
+atau port yang ditampilkan oleh Vite.
+
 ---
 
-# Hasil Pengujian
+## Testing
 
-## 1. Compile Smart Contract
+Project telah diuji menggunakan Hardhat Test dengan 12 test case:
 
-![Compile](image/Gambar7.png)
-
-*Gambar 1. Compile smart contract berhasil.*
-
----
-
-## 2. Unit Testing
-
-Seluruh fitur smart contract telah berhasil diuji menggunakan Hardhat testing framework. Pengujian mencakup validasi owner, penambahan kandidat, voting, event emit, validasi double voting, serta validasi kandidat tidak valid.
-
-### Test Case:
 1. Should set correct owner
-2. Should add candidate
-3. Should allow voting
-4. Should prevent double voting
-5. Should reject invalid candidate
-6. Should emit CandidateAdded event
-7. Should emit Voted event
-8. Should return candidate count
-9. Should reject non-owner adding candidate
+2. Should start with zero candidates
+3. Should add candidate
+4. Should allow voting
+5. Should prevent double voting
+6. Should reject invalid candidate
+7. Should reject non-owner adding candidate
+8. Should emit CandidateAdded event
+9. Should emit Voted event
+10. Should return candidate count
+11. Should count votes from multiple voters
+12. Should reject voting after deadline
 
-![Testing](image/Gambar8.png)
-
-*Gambar 2. Hasil unit testing Hardhat (9 passing).*
-
----
-
-## 3. Local Blockchain Hardhat
-
-Local blockchain berhasil dijalankan menggunakan Hardhat Network dan menghasilkan beberapa akun testing Ethereum lengkap dengan private key dan saldo ETH testing.
-
-![Hardhat Node](image/Gambar10.png)
-
-*Gambar 3. Hardhat local blockchain berjalan.*
-
----
-
-## 4. Deployment Smart Contract
-
-Smart contract berhasil di-deploy ke jaringan localhost Hardhat menggunakan deploy script Hardhat.
+Menjalankan test:
 
 ```bash
-npx hardhat run scripts/deploy.js --network localhost
+npx hardhat test
 ```
 
-![Deploy](image/Gambar11.png)
-
-*Gambar 4. Smart contract berhasil di-deploy ke localhost.*
-
----
-
-## 5. MetaMask Connection
-
-MetaMask berhasil dihubungkan ke jaringan Hardhat Local Network menggunakan RPC localhost dan Chain ID 31337.
-
-### Konfigurasi Network:
-| Field | Value |
-|---|---|
-| Network Name | Hardhat Local |
-| RPC URL | http://127.0.0.1:8545 |
-| Chain ID | 31337 |
-| Currency Symbol | ETH |
-
-![MetaMask](image/Gambar12.png)
-
-*Gambar 5. MetaMask berhasil terhubung ke Hardhat Local Network.*
-## 6. Test Coverage & Branch Coverage
-
-Pengujian smart contract juga dilakukan menggunakan `solidity-coverage` untuk mengukur tingkat cakupan pengujian terhadap seluruh kode program smart contract.
-
-Pengujian ini memastikan bahwa:
-- seluruh function berhasil diuji,
-- seluruh statement Solidity berhasil dieksekusi,
-- seluruh line code berhasil tercakup,
-- serta sebagian besar branch condition (`require` dan validasi kondisi) telah diuji dengan baik.
-
-Hasil coverage menunjukkan:
-- **Statements Coverage:** 100%
-- **Branch Coverage:** 90%
-- **Functions Coverage:** 100%
-- **Lines Coverage:** 100%
-
-Nilai branch coverage berhasil mencapai **90%**, yang menunjukkan bahwa hampir seluruh percabangan logika dan validasi kondisi pada smart contract telah berhasil diuji secara menyeluruh.
-
-![Coverage Result](image/Gambar13.png)
-
-*Gambar 6. Hasil solidity coverage dengan branch coverage sebesar 90%.*
-
----
----
-## 7. Deployment & Interaksi Menggunakan Remix IDE
-
-Selain menggunakan Hardhat Local Network, smart contract juga berhasil diuji menggunakan Remix IDE untuk memastikan kontrak dapat diinteraksikan langsung melalui antarmuka blockchain berbasis web.
-
-Pada tahap ini dilakukan beberapa proses:
-- Compile smart contract menggunakan Solidity Compiler pada Remix IDE
-- Deploy contract menggunakan Remix VM
-- Menambahkan kandidat voting
-- Melakukan voting
-- Mengecek perubahan state smart contract secara langsung
-
-### a. Compile Smart Contract di Remix IDE
-
-Smart contract berhasil di-compile menggunakan compiler Solidity versi 0.8.20 tanpa error.
-
-### b. Deployment Smart Contract di Remix IDE
-
-Contract berhasil di-deploy menggunakan Remix VM Environment dan menghasilkan alamat contract baru.
-
-### c. Menambahkan Kandidat Voting
-
-Owner berhasil menambahkan kandidat voting menggunakan fungsi `addCandidate`.
-
-![Add Candidate](image/Gambar1.png)
-
-*Gambar 7. Penambahan kandidat voting berhasil dilakukan.*
-
----
-
-### d. Melakukan Voting
-
-User berhasil melakukan voting terhadap kandidat yang tersedia menggunakan fungsi `vote`.
-
-![Voting Transaction](image/Gambar3.png)
-
-*Gambar 8. Transaksi voting berhasil dilakukan.*
-
----
-
-### e. Verifikasi Perubahan State Smart Contract
-
-Setelah voting dilakukan, hasil vote berhasil berubah dan dapat diverifikasi menggunakan fungsi `getCandidate`.
-
-![State Verification](image/Gambar5.png)
-
-*Gambar 9. Verifikasi perubahan state smart contract setelah voting.*
-
-### f. Validasi Double Voting
-
-Smart contract berhasil memblokir user yang mencoba melakukan voting lebih dari satu kali. Sistem menampilkan error `Already voted` sesuai validasi pada mapping `hasVoted`.
-
-Hal ini membuktikan bahwa mekanisme keamanan one vote per wallet berjalan dengan baik dan mampu mencegah terjadinya double voting pada sistem pemilihan.
-
-![Double Voting Validation](image/Gambar6.png)
-
-*Gambar 10. Validasi gagal voting kedua karena user sudah pernah melakukan vote sebelumnya.*
-
-# Contract Address
+Expected output:
 
 ```text
-Contract deployed to:
-0x5fbdb2315678afecb367f032d93f642f64180aa3
+12 passing
 ```
 
 ---
 
-# Teknologi yang Digunakan
+## Contract Address
 
-- Solidity
-- Hardhat
-- Ethers.js
-- MetaMask
-- Node.js
-- GitHub
+### Localhost
+
+```text
+[Isi setelah deploy]
+```
 
 ---
 
-# Struktur Project
+## Struktur Project
 
 ```text
-Voting-Project2/
+blockchain_final_project_voting_dapp
 │
 ├── contracts/
 │   └── SimpleVoting.sol
@@ -275,20 +234,130 @@ Voting-Project2/
 ├── test/
 │   └── SimpleVoting.js
 │
-├── image/
-│   ├── image1.png
-│   ├── image2.png
-│   ├── image3.png
-│   ├── image4.png
-│   └── image5.png
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── ConnectWallet.jsx
+│   │   │   ├── CandidateList.jsx
+│   │   │   ├── AddCandidate.jsx
+│   │   │   └── StatusMessage.jsx
+│   │   │
+│   │   ├── utils/
+│   │   │   └── contract.js
+│   │   │
+│   │   ├── App.jsx
+│   │   └── App.css
+│   │
+│   └── package.json
 │
-├── hardhat.config.js
-├── package.json
 └── README.md
 ```
 
 ---
 
-# Kesimpulan
+## Demo (SS tampilan)
 
-Project smart contract voting sederhana ini berhasil diimplementasikan menggunakan Solidity dan Hardhat dengan fitur utama voting satu kali per wallet, deployment local blockchain, unit testing, dan integrasi MetaMask. Dokumentasi sistem, hasil pengujian, serta analisis coverage turut disusun guna memberikan pemahaman yang lebih jelas terkait alur implementasi dan validasi smart contract yang telah dibuat. 
+### 1. Wallet Not Connected
+
+Menampilkan tampilan wallet MetaMask sebelum berhasil terhubung ke aplikasi.
+
+```markdown
+![Wallet Not Connected](image/image1.png)
+```
+
+---
+
+### 2. Wallet Connected
+
+Menampilkan wallet MetaMask yang berhasil terhubung ke aplikasi.
+
+```markdown
+![Wallet Connected](image/image2.png)
+```
+
+---
+
+### 3. Add Candidate (Owner Only)
+
+Owner berhasil menambahkan kandidat ke dalam sistem voting.
+
+```markdown
+![Add Candidate](image/image3.png)
+```
+
+---
+
+### 3. Voting Process
+
+Pengguna melakukan voting terhadap salah satu kandidat. Dapat dilihat konfirmasi disertai permintaan transaksi dari metahat beserta biaya transaksi
+
+```markdown
+![Voting Process](screenshots/image/image5.png)
+```
+
+---
+
+### 4. Double Vote Prevention
+
+Setelah melakukan voting, wallet tidak dapat melakukan voting kembali. Dapat dilihat dari fitur disable tombol vote sehingga tidak akan terjadi pengulangan voting
+
+```markdown
+![Double Vote Prevention](image/image4.png)
+```
+
+---
+
+### 5. Non-Owner Restriction
+
+Akun selain owner tidak dapat menambahkan kandidat. terlihat dari bagian tambah kandidat yang tidak tersedia
+
+```markdown
+![Non Owner Restriction](image/image11.png)
+```
+
+---
+
+### 6. Network Detection
+
+Aplikasi memberikan peringatan ketika pengguna berada pada network yang salah. Hal ini terjadi saat percobaan perubahaan Network ke Bitcoin Mainnet
+
+```markdown
+![Network Detection](image/image6.png)
+```
+
+---
+
+### 7. Voting Result
+
+Menampilkan hasil voting dan jumlah suara setiap kandidat. Bisa dilihat setelah ada 3 suara yang masuk 2 suara pada Alice dan 1 untuk Bob
+
+```markdown
+![Voting Result](image/image12.png)
+```
+
+---
+
+### 8. Smart Contract Testing dan Coverage Test
+
+Seluruh test case smart contract berhasil dijalankan.
+
+```markdown
+![Hardhat Test](image/image8.png)
+```
+Selain itu Coverage test juga telah menunjukkan hasil yang baik dari branch telah mencapai 100%
+```markdown
+
+![Hardhat Test](image/image9.png)
+```
+---
+
+### 9. Responsive Design (Bonus)
+
+Tampilan aplikasi pada perangkat mobile.
+
+```markdown
+![Mobile View](image/image10.png)
+```
+
+
+---
